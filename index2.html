@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miami Beach Super Plumber</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ============================================================
+   TOKENS
+============================================================ */
+:root {
+  --navy:        #003366;
+  --navy-deep:   #00254d;
+  --cyan:        #00B4D8;
+  --cyan-light:  #90E0EF;
+  --amber:       #F59E0B;
+  --amber-dark:  #D97706;
+  --white:       #FAFAF8;
+  --text-body:   #2d2d2d;
+  --text-muted:  #5a6a7a;
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-pill: 100px;
+  --shadow-soft: 0 4px 24px rgba(0,51,102,0.10);
+  --shadow-glow: 0 8px 32px rgba(0,180,216,0.18);
+  --transition:  0.28s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--white);
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+#header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 0 0 0 0;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1320px;
+  margin: 12px auto 0;
+  padding: 0 1rem;
+  background: rgba(0, 37, 77, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+  height: 68px;
+  transition: all var(--transition);
+}
+
+/* Scrolled: flatten & tighten */
+#header.scrolled .nav-bar {
+  margin-top: 0;
+  border-radius: 0;
+  height: 60px;
+  background: rgba(0,37,77,0.98);
+}
+
+/* Logo */
+.logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.logo img {
+  height: 44px;
+  width: auto;
+  display: block;
+  transition: height var(--transition);
+}
+#header.scrolled .logo img {
+  height: 38px;
+}
+
+/* Desktop links */
+.nav-links {
+  display: none;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  position: relative;
+  padding-bottom: 3px;
+  transition: color var(--transition);
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 2px;
+  background: var(--cyan);
+  border-radius: 2px;
+  transition: width var(--transition);
+}
+.nav-links a:hover { color: #fff; }
+.nav-links a:hover::after { width: 100%; }
+
+/* Desktop CTAs */
+.nav-ctas {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-ghost {
+  color: rgba(255,255,255,0.88);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255,255,255,0.28);
+  transition: all var(--transition);
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.55);
+  color: #fff;
+}
+
+.btn-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--amber);
+  color: var(--navy-deep);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.01em;
+  transition: all var(--transition);
+  box-shadow: 0 4px 16px rgba(245,158,11,0.35);
+}
+.btn-call:hover {
+  background: var(--amber-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(245,158,11,0.45);
+}
+.btn-call i { font-size: 0.85rem; }
+
+/* Hamburger */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile Drawer */
+.mobile-drawer {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 12px; right: 12px;
+  background: var(--navy-deep);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.3s ease,
+              visibility 0.3s ease;
+}
+.mobile-drawer.open {
+  max-height: 500px;
+  opacity: 1;
+  visibility: visible;
+}
+.mobile-drawer-inner {
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.mobile-drawer a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  transition: color var(--transition), padding-left var(--transition);
+}
+.mobile-drawer a:last-of-type.nav-link { border-bottom: none; }
+.mobile-drawer a:hover { color: var(--cyan); padding-left: 0.75rem; }
+
+.mobile-drawer-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.10);
+}
+.mobile-drawer-ctas .btn-ghost {
+  text-align: center;
+  padding: 12px 0;
+  font-size: 0.95rem;
+}
+.mobile-drawer-ctas .btn-call {
+  justify-content: center;
+  padding: 14px 0;
+  font-size: 1rem;
+}
+
+/* Responsive breakpoints */
+@media (min-width: 768px) {
+  .nav-links { display: flex; }
+  .nav-ctas  { display: flex; }
+  .hamburger { display: none; }
+  .mobile-drawer { display: none; }
+
+  .nav-bar { padding: 0 1.75rem; height: 72px; }
+  #header.scrolled .nav-bar { height: 62px; }
+}
+
+@media (min-width: 1024px) {
+  .nav-bar { padding: 0 2rem; }
+  .nav-links { gap: 2.5rem; }
+}
+
+
+/* ============================================================
+   HERO SECTION
+============================================================ */
+.hero {
+  padding-top: 100px; /* nav clearance */
+  background: var(--white);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Subtle background texture */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 75%;
+  background: linear-gradient(165deg, #f0f7ff 0%, var(--white) 60%);
+  z-index: 0;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 3.5rem 1.25rem 0;
+}
+
+/* ---- Layout: stacked on mobile, side-by-side from 1024px ---- */
+.hero-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-body {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+/* ---- Left column ---- */
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-left { text-align: left; }
+}
+
+/* Trust badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,180,216,0.10);
+  border: 1px solid rgba(0,180,216,0.30);
+  color: #006d9e;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  width: fit-content;
+  margin: 0 auto;
+}
+@media (min-width: 1024px) {
+  .hero-badge { margin: 0; }
+}
+.hero-badge i { color: var(--cyan); font-size: 0.75rem; }
+
+/* Headline */
+.hero-headline {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(2.1rem, 5.5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.08;
+  color: var(--navy-deep);
+  letter-spacing: -0.02em;
+}
+.hero-headline em {
+  font-style: normal;
+  color: var(--cyan);
+  position: relative;
+  white-space: nowrap;
+}
+/* Underline squiggle on the key phrase */
+.hero-headline em::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: -4px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--cyan-light));
+  border-radius: 2px;
+}
+
+/* Sub */
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: var(--text-muted);
+  line-height: 1.65;
+  max-width: 520px;
+  margin: 0 auto;
+}
+@media (min-width: 1024px) {
+  .hero-sub { margin: 0; }
+}
+
+/* Stats row */
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+@media (min-width: 1024px) {
+  .hero-stats { justify-content: flex-start; }
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+@media (min-width: 1024px) {
+  .stat { align-items: flex-start; }
+}
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--navy);
+  letter-spacing: 0.02em;
+}
+.stat-num span {
+  color: var(--amber);
+}
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* CTA buttons */
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  justify-content: center;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .hero-ctas { justify-content: flex-start; }
+}
+
+.cta-emergency {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--amber);
+  color: var(--navy-deep);
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 15px 30px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 6px 28px rgba(245,158,11,0.38);
+  transition: all var(--transition);
+  letter-spacing: 0.01em;
+}
+.cta-emergency:hover {
+  background: var(--amber-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(245,158,11,0.5);
+}
+.cta-emergency i { font-size: 0.9rem; }
+
+.cta-services {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--navy);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 15px 28px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--navy);
+  transition: all var(--transition);
+}
+.cta-services:hover {
+  background: var(--navy);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.cta-services i {
+  font-size: 0.8rem;
+  transition: transform var(--transition);
+}
+.cta-services:hover i { transform: translateX(3px); }
+
+/* Reassurance line */
+.hero-reassurance {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  justify-content: center;
+}
+@media (min-width: 1024px) {
+  .hero-reassurance { justify-content: flex-start; }
+}
+.hero-reassurance i { color: #22c55e; font-size: 0.75rem; }
+
+/* ---- Right column: image ---- */
+.hero-right {
+  position: relative;
+}
+
+.hero-img-wrap {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,51,102,0.18);
+  aspect-ratio: 4/3;
+  background: #dce8f2;
+}
+.hero-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Floating badge on image */
+.img-badge {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  background: rgba(0,37,77,0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  max-width: calc(100% - 2.5rem);
+}
+.img-badge-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--amber);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--navy-deep);
+  font-size: 1rem;
+}
+.img-badge-text { line-height: 1.3; }
+.img-badge-text strong { display: block; font-size: 0.9rem; font-weight: 700; }
+.img-badge-text span  { font-size: 0.75rem; color: rgba(255,255,255,0.65); }
+
+/* Decorative accent dot */
+.accent-dot {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,180,216,0.18) 0%, transparent 70%);
+  top: -40px;
+  right: -40px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ---- Bottom social proof strip ---- */
+.hero-proof {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 2rem 1.25rem 2.75rem;
+  margin-top: 3.5rem;
+  border-top: 1px solid rgba(0,51,102,0.08);
+}
+.proof-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.proof-item i {
+  color: var(--amber);
+  font-size: 1rem;
+}
+.proof-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(0,51,102,0.15);
+}
+@media (max-width: 600px) {
+  .proof-divider { display: none; }
+}
+
+
+/* ============================================================
+   SMOOTH SCROLL  /  REDUCED MOTION
+============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+============================================================ -->
+<header id="header">
+  <nav class="nav-bar">
+
+    <a href="index.html" class="logo">
+      <img src="assets/images/Super_Plumber1.png" alt="Miami Beach Super Plumber Logo">
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+    </ul>
+
+    <div class="nav-ctas">
+      <a href="contact.html" class="btn-ghost">Contact</a>
+      <a href="tel:3057967752" class="btn-call">
+        <i class="fas fa-phone"></i> (305) 796-7752
+      </a>
+    </div>
+
+    <!-- Hamburger (mobile only) -->
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" id="mobile-drawer" role="dialog" aria-label="Mobile menu">
+    <div class="mobile-drawer-inner">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="reviews.html" class="nav-link">Reviews</a>
+
+      <div class="mobile-drawer-ctas">
+        <a href="contact.html" class="btn-ghost">Contact Us</a>
+        <a href="tel:3057967752" class="btn-call">
+          <i class="fas fa-phone"></i> (305) 796-7752
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-body">
+
+      <!-- Left: copy -->
+      <div class="hero-left">
+
+        <div class="hero-badge">
+          <i class="fas fa-circle-check"></i>
+          Licensed & Insured · Miami Beach
+        </div>
+
+        <h1 class="hero-headline">
+          Miami's most trusted plumber,&nbsp;<em>around the clock</em>
+        </h1>
+
+        <p class="hero-sub">
+          Emergency repairs, leak detection, water heaters, drain cleaning, remodel plumbing and more — 
+          serving Miami Beach and surrounding areas since 2004.
+        </p>
+
+        <!-- Stats -->
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num">20<span>+</span></span>
+            <span class="stat-label">Years serving Miami</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">24<span>/7</span></span>
+            <span class="stat-label">Emergency response</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">5<span>★</span></span>
+            <span class="stat-label">Average rating</span>
+          </div>
+        </div>
+
+        <!-- CTAs -->
+        <div class="hero-ctas">
+          <a href="tel:3057967752" class="cta-emergency">
+            <i class="fas fa-phone"></i>
+            Get Emergency Help
+          </a>
+          <a href="services.html" class="cta-services">
+            Our Services <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <p class="hero-reassurance">
+          <i class="fas fa-circle-check"></i>
+          No call-out fees · Same-day service · Upfront pricing
+        </p>
+
+      </div>
+
+      <!-- Right: image -->
+      <div class="hero-right">
+        <div class="accent-dot"></div>
+        <div class="hero-img-wrap">
+          <img src="assets/images/hero_img1.webp"
+               alt="Miami Beach Super Plumber technician on the job"
+               loading="eager" fetchpriority="high">
+
+          <!-- Floating badge -->
+          <div class="img-badge">
+            <div class="img-badge-icon">
+              <i class="fas fa-shield-halved"></i>
+            </div>
+            <div class="img-badge-text">
+              <strong>Fully Licensed & Insured</strong>
+              <span>Florida State Certified</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Social proof strip -->
+  <div class="hero-proof">
+    <div class="proof-item">
+      <i class="fas fa-star"></i>
+      <span>500+ 5-star Google reviews</span>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <i class="fas fa-bolt"></i>
+      <span>60-min emergency response</span>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <i class="fas fa-calendar-check"></i>
+      <span>Same-day appointments available</span>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <i class="fas fa-award"></i>
+      <span>Serving Miami Beach since 2004</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     JS: Nav scroll + mobile drawer
+============================================================ -->
+<script>
+(function () {
+  const header   = document.getElementById('header');
+  const hamburger= document.getElementById('hamburger');
+  const drawer   = document.getElementById('mobile-drawer');
+
+  // Scroll class
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 30);
+  }, { passive: true });
+
+  // Toggle drawer
+  hamburger.addEventListener('click', () => {
+    const open = drawer.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  // Close on drawer link click
+  drawer.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Close on outside click
+  document.addEventListener('click', e => {
+    if (!header.contains(e.target) && drawer.classList.contains('open')) {
+      drawer.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Choose Us – Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ====================== ROOT VARIABLES ====================== */
+:root {
+  --navy:       #003366;
+  --bright-blue:#00B4FF;
+  --accent:     #FF6B35;
+  --white:      #ffffff;
+  --radius:     16px;
+  --shadow:     0 10px 15px rgba(0,0,0,0.1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #222;
+  line-height: 1.6;
+  background: #f0f4f8;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* ====================== WHY CHOOSE US ====================== */
+.why-section {
+  background: var(--navy);
+  padding: clamp(64px, 10vw, 108px) clamp(1.25rem, 5vw, 2.5rem);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative grid pattern */
+.why-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+/* Glow blob */
+.why-section::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,180,255,0.08) 0%, transparent 70%);
+  top: -100px;
+  right: -100px;
+  pointer-events: none;
+}
+
+.why-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Header ---- */
+.why-header {
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.why-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,107,53,0.15);
+  border: 1px solid rgba(255,107,53,0.35);
+  color: #ffb49a;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-bottom: 1.4rem;
+}
+.why-eyebrow i { font-size: 0.7rem; color: var(--accent); }
+
+.why-header h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.why-header h2 span {
+  color: var(--bright-blue);
+}
+
+.why-subtitle {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: rgba(255,255,255,0.58);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* ---- Grid ---- */
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.07);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+/* 2 cols at 600px */
+@media (min-width: 600px) {
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 3 cols at 960px */
+@media (min-width: 960px) {
+  .why-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---- Card ---- */
+.why-card {
+  background: rgba(255,255,255,0.035);
+  padding: clamp(1.75rem, 4vw, 2.5rem) clamp(1.5rem, 3.5vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: background 0.25s ease;
+  position: relative;
+  cursor: default;
+}
+
+.why-card:hover {
+  background: rgba(255,255,255,0.07);
+}
+
+/* Top accent bar that animates in on hover */
+.why-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--bright-blue);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.why-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* Card top row: number + icon */
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-number {
+  font-family: 'Fraunces', serif;
+  font-size: 3rem;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1;
+  color: rgba(255,255,255,0.10);
+  transition: color 0.25s ease;
+  user-select: none;
+}
+.why-card:hover .card-number {
+  color: rgba(0,180,255,0.22);
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(0,180,255,0.12);
+  border: 1px solid rgba(0,180,255,0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--bright-blue);
+  flex-shrink: 0;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+.why-card:hover .card-icon {
+  background: rgba(0,180,255,0.22);
+  border-color: rgba(0,180,255,0.45);
+  transform: scale(1.06);
+}
+
+/* Card body */
+.card-body {}
+
+.card-body h3 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.05rem, 2.2vw, 1.22rem);
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.55rem;
+  line-height: 1.25;
+}
+
+.card-body p {
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  color: rgba(255,255,255,0.52);
+  line-height: 1.65;
+}
+
+/* ---- Bottom CTA strip ---- */
+.why-footer {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.why-footer p {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.5);
+}
+.why-footer strong {
+  color: rgba(255,255,255,0.85);
+  font-weight: 500;
+}
+
+.why-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 30px;
+  border-radius: 100px;
+  letter-spacing: 0.01em;
+  transition: background 0.25s ease, transform 0.22s ease, box-shadow 0.25s ease;
+  box-shadow: 0 6px 24px rgba(255,107,53,0.35);
+}
+.btn-primary:hover {
+  background: #e05a27;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(255,107,53,0.45);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 14px 28px;
+  border-radius: 100px;
+  border: 1.5px solid rgba(255,255,255,0.22);
+  transition: all 0.25s ease;
+}
+.btn-ghost:hover {
+  border-color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.07);
+  color: #fff;
+}
+
+/* ====================== RESPONSIVE MOTION ====================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+
+</style>
+</head>
+<body>
+
+<section class="why-section">
+  <div class="why-inner">
+
+    <!-- Header -->
+    <div class="why-header">
+      <div class="why-eyebrow">
+        <i class="fas fa-award"></i>
+        Why choose us
+      </div>
+      <h2>Miami Beach's most reliable <span>plumbing team</span></h2>
+      <p class="why-subtitle">
+        Professional, licensed, and always available — we treat every job like it's our own home.
+      </p>
+    </div>
+
+    <!-- Grid -->
+    <div class="why-grid">
+
+      <div class="why-card">
+        <div class="card-top">
+          <span class="card-number">01</span>
+          <div class="card-icon"><i class="fas fa-clock"></i></div>
+        </div>
+        <div class="card-body">
+          <h3>24/7 Emergency Service</h3>
+          <p>Burst pipe at midnight? We pick up. Available around the clock for any urgent plumbing issue.</p>
+        </div>
+      </div>
+
+      <div class="why-card">
+        <div class="card-top">
+          <span class="card-number">02</span>
+          <div class="card-icon"><i class="fas fa-bolt"></i></div>
+        </div>
+        <div class="card-body">
+          <h3>Fast Response Time</h3>
+          <p>Most calls answered within minutes. We're on-site quickly because water damage doesn't wait.</p>
+        </div>
+      </div>
+
+      <div class="why-card">
+        <div class="card-top">
+          <span class="card-number">03</span>
+          <div class="card-icon"><i class="fas fa-user-shield"></i></div>
+        </div>
+        <div class="card-body">
+          <h3>Licensed &amp; Insured</h3>
+          <p>Florida State Certified professionals you can trust — fully insured for your peace of mind.</p>
+        </div>
+      </div>
+
+      <div class="why-card">
+        <div class="card-top">
+          <span class="card-number">04</span>
+          <div class="card-icon"><i class="fas fa-tag"></i></div>
+        </div>
+        <div class="card-body">
+          <h3>Honest, Upfront Pricing</h3>
+          <p>You'll know the cost before we start. No surprise charges, no hidden fees — ever.</p>
+        </div>
+      </div>
+
+      <div class="why-card">
+        <div class="card-top">
+          <span class="card-number">05</span>
+          <div class="card-icon"><i class="fas fa-building"></i></div>
+        </div>
+        <div class="card-body">
+          <h3>Residential &amp; Commercial</h3>
+          <p>Expert service for homes, hotels, restaurants, and businesses of all sizes across Miami Beach.</p>
+        </div>
+      </div>
+
+      <div class="why-card">
+        <div class="card-top">
+          <span class="card-number">06</span>
+          <div class="card-icon"><i class="fas fa-star"></i></div>
+        </div>
+        <div class="card-body">
+          <h3>Satisfaction Guaranteed</h3>
+          <p>500+ five-star reviews and counting. If you're not happy, we come back and make it right.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer CTA -->
+    <div class="why-footer">
+      <p>Ready to get started? <strong>We're one call away.</strong></p>
+      <div class="why-cta-group">
+        <a href="tel:3057967752" class="btn-primary">
+          <i class="fas fa-phone"></i> Call (305) 796-7752
+        </a>
+        <a href="services.html" class="btn-ghost">
+          View All Services <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>
